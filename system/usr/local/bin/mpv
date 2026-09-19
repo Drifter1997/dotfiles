@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+if [ $# -eq 0 ]; then
+    exec /usr/bin/mpv --player-operation-mode=pseudo-gui
+else
+    exec /usr/bin/mpv "$@"
+fi

@@ -1,0 +1,81 @@
+* {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 13px;
+    border: none;
+    border-radius: 0;
+}
+
+window#waybar {
+    background-color: #000000;
+    color: #ffffff;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+#workspaces button {
+    padding: 0 8px;
+    color: #888888;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+}
+
+#workspaces button.focused {
+    background-color: #222222;
+    color: #ffffff;
+    border-bottom: 2px solid #ffffff;
+}
+
+#workspaces button.urgent {
+    background-color: #ff3333;
+    color: #ffffff;
+}
+
+#mode {
+    background-color: #ff3333;
+    color: #000000;
+    padding: 0 8px;
+    font-weight: bold;
+}
+
+#window {
+    padding: 0 10px;
+    color: #cccccc;
+}
+
+#idle_inhibitor,
+#custom-idle_inhibitor,
+#pulseaudio,
+#backlight,
+#bluetooth,
+#network,
+#power-profiles-daemon,
+#battery,
+#clock {
+    padding: 0 10px;
+    color: #ffffff;
+}
+
+#custom-idle_inhibitor:hover,
+#pulseaudio:hover,
+#backlight:hover,
+#bluetooth:hover,
+#network:hover,
+#power-profiles-daemon:hover,
+#battery:hover,
+#clock:hover {
+    background-color: #1a1a1a;
+}
+
+#custom-idle_inhibitor.activated,
+#custom-idle_inhibitor.deactivated {
+    color: #ffffff;
+}
+
+#custom-power {
+    background-color: #e02424;
+    color: #ffffff;
+    padding: 0 10px;
+    margin: 4px 2px;
+    border-radius: 4px;
+}
+

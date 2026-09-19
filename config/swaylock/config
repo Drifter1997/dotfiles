@@ -1,0 +1,7 @@
+color=000000
+image=/home/joji/.config/sway/current_wallpaper
+scaling=fill
+indicator-radius=100
+indicator-thickness=7
+show-failed-attempts
+indicator-caps-lock

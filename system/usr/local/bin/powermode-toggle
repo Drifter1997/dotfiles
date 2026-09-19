@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+current=$(/usr/bin/powerprofilesctl get 2>/dev/null)
+if [ "$current" = "power-saver" ]; then
+    /usr/bin/powerprofilesctl set performance
+    target="performance"
+else
+    /usr/bin/powerprofilesctl set power-saver
+    target="power-saver"
+fi
+which notify-send >/dev/null 2>&1 && notify-send -u normal "Power Profile" "Switched to $target"

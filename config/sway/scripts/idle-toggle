@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+LOCK_FILE="/tmp/sway_idle_inhibited"
+
+status() {
+    if [ -f "$LOCK_FILE" ]; then
+        printf '{"text":"","tooltip":"Idle Lock: Inhibited (Screen stays awake)\\nClick or Super+Shift+I to allow auto-lock","class":"activated"}\n'
+    else
+        printf '{"text":"","tooltip":"Idle Lock: Active (Screen locks after 2 min)\\nClick or Super+Shift+I to inhibit auto-lock","class":"deactivated"}\n'
+    fi
+}
+
+toggle() {
+    if [ -f "$LOCK_FILE" ]; then
+        rm -f "$LOCK_FILE"
+        which notify-send >/dev/null 2>&1 && notify-send -u normal -t 2000 -a "Idle Lock" "Idle Lock: Enabled" "Screen will lock after 2 min of inactivity"
+    else
+        touch "$LOCK_FILE"
+        which notify-send >/dev/null 2>&1 && notify-send -u normal -t 2000 -a "Idle Lock" "Idle Lock: Inhibited" "Screen will stay awake (auto-lock disabled)"
+    fi
+    pkill -RTMIN+9 waybar 2>/dev/null || true
+}
+
+case "$1" in
+    status)
+        status
+        ;;
+    toggle|*)
+        toggle
+        ;;
+esac

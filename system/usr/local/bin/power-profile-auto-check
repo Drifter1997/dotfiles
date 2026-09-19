@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+if [ "$(cat /sys/class/power_supply/AC/online 2>/dev/null)" = "1" ]; then
+    /usr/bin/powerprofilesctl set performance
+else
+    /usr/bin/powerprofilesctl set power-saver
+fi

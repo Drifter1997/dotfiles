@@ -1,0 +1,2 @@
+SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_NAME}=="AC", ENV{POWER_SUPPLY_ONLINE}=="1", RUN+="/usr/local/bin/power-profile-auto performance"
+SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_NAME}=="AC", ENV{POWER_SUPPLY_ONLINE}=="0", RUN+="/usr/local/bin/power-profile-auto power-saver"

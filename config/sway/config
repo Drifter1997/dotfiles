@@ -1,0 +1,267 @@
+# Default config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+# Your preferred terminal emulator
+set $term foot
+# Your preferred application launcher
+set $menu wmenu-run
+
+xwayland enable
+
+### Output configuration
+#
+# Current wallpaper
+output * bg /home/joji/.config/sway/current_wallpaper fill
+
+# Laptop display (eDP-1: 1920x1080 scaled to 1.25 for comfortable HiDPI viewing)
+output eDP-1 {
+    mode 1920x1080@60.033Hz
+    pos 0 0
+    scale 1.25
+    scale_filter linear
+}
+
+# External display (HDMI-A-1)
+output HDMI-A-1 {
+    mode 1920x1080
+    pos 1920 0
+    scale 1.0
+}
+
+### Idle configuration
+#
+exec_always --no-startup-id /home/joji/.config/sway/scripts/idle-daemon.sh
+
+### Input configuration
+#
+    input type:touchpad {
+        dwt enabled
+        tap enabled
+        natural_scroll enabled
+        middle_emulation enabled
+        click_method button_areas
+    }
+
+#   input type:keyboard {
+#       xkb_layout "eu"
+#   }
+#
+# You can also configure each device individually.
+# Read `man 5 sway-input` for more information about this section.
+
+### Key bindings
+#
+# Basics:
+#
+    # Start a terminal
+    bindsym Mod4+Return exec foot
+
+    # Kill focused window
+    bindsym Mod4+w kill
+    bindsym $mod+Shift+q kill
+
+    # Applications
+    bindsym Mod4+b exec firefox
+    bindsym Mod4+Shift+Mod1+b exec firefox --private-window
+    bindsym Mod4+Shift+b exec foot --app-id=popup-bluetuith bluetuith
+    bindsym Mod4+Shift+w exec foot --app-id=popup-wifi nmtui
+    bindsym Mod4+Shift+f exec foot --app-id=yazi sh -c "sleep 0.05 && exec yazi"
+    bindsym Mod4+Ctrl+a exec foot --app-id=popup-wiremix wiremix
+    bindsym Mod4+Shift+m exec foot --app-id=popup-wiremix wiremix
+    bindsym Mod4+Ctrl+p exec /usr/local/bin/powermode-toggle
+    bindsym Mod4+Shift+i exec /usr/local/bin/idle-toggle toggle
+    bindsym Mod4+Ctrl+Delete exec foot --app-id=btop btop
+    bindsym Mod4+Ctrl+KP_Delete exec foot --app-id=btop btop
+
+
+    # Start your launcher
+    bindsym Mod4+space exec $menu
+    bindsym $mod+d exec $menu
+
+    # Drag floating windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    # Despite the name, also works for non-floating windows.
+    # Change normal to inverse to use left mouse button for resizing and right
+    # mouse button for dragging.
+    floating_modifier $mod normal
+
+    # Reload the configuration file
+    bindsym $mod+Shift+c reload
+
+    # Exit sway (logs you out of your Wayland session)
+    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+    bindsym $mod+Escape exec wlogout
+#
+# Moving around:
+#
+    # Move your focus around
+    bindsym $mod+$left focus left
+    bindsym $mod+$down focus down
+    bindsym $mod+$up focus up
+    bindsym $mod+$right focus right
+    # Or use $mod+[up|down|left|right]
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
+
+    # Move the focused window with the same, but add Shift
+    bindsym $mod+Shift+$left move left
+    bindsym $mod+Shift+$down move down
+    bindsym $mod+Shift+$up move up
+    bindsym $mod+Shift+$right move right
+    # Ditto, with arrow keys
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+#
+# Workspaces:
+#
+    # Switch to workspace
+    bindsym $mod+1 workspace number 1
+    bindsym $mod+2 workspace number 2
+    bindsym $mod+3 workspace number 3
+    bindsym $mod+4 workspace number 4
+    bindsym $mod+5 workspace number 5
+    bindsym $mod+6 workspace number 6
+    bindsym $mod+7 workspace number 7
+    bindsym $mod+8 workspace number 8
+    bindsym $mod+9 workspace number 9
+    bindsym $mod+0 workspace number 10
+    # Move focused container to workspace
+    bindsym $mod+Shift+1 move container to workspace number 1
+    bindsym $mod+Shift+2 move container to workspace number 2
+    bindsym $mod+Shift+3 move container to workspace number 3
+    bindsym $mod+Shift+4 move container to workspace number 4
+    bindsym $mod+Shift+5 move container to workspace number 5
+    bindsym $mod+Shift+6 move container to workspace number 6
+    bindsym $mod+Shift+7 move container to workspace number 7
+    bindsym $mod+Shift+8 move container to workspace number 8
+    bindsym $mod+Shift+9 move container to workspace number 9
+    bindsym $mod+Shift+0 move container to workspace number 10
+    # Note: workspaces can have any name you want, not just numbers.
+    # We just use 1-10 as the default.
+#
+# Layout stuff:
+#
+    # Split orientation
+    bindsym $mod+x splith
+    bindsym $mod+v splitv
+
+    # Switch layout styles
+    bindsym $mod+s layout stacking
+    bindsym $mod+t layout tabbed
+    bindsym $mod+e layout toggle split
+
+    # Fullscreen (super+f like omarchy)
+    bindsym $mod+f fullscreen
+    bindsym F11 fullscreen
+
+    # Toggle tiling / floating
+    bindsym $mod+Shift+space floating toggle
+
+    # Move focus to the parent container
+    bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
+
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+minus scratchpad show
+#
+# Resizing containers:
+#
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # Ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+#
+    # Special keys to adjust volume via SwayOSD
+    bindsym --locked XF86AudioMute exec swayosd-client --output-volume mute-toggle
+    bindsym --locked XF86AudioLowerVolume exec swayosd-client --output-volume lower
+    bindsym --locked XF86AudioRaiseVolume exec swayosd-client --output-volume raise
+    bindsym --locked XF86AudioMicMute exec swayosd-client --input-volume mute-toggle
+
+    # Special keys to control media via playerctl
+    bindsym --locked XF86AudioPlay exec playerctl play-pause
+    bindsym --locked XF86AudioPause exec playerctl play-pause
+    bindsym --locked XF86AudioPrev exec playerctl previous
+    bindsym --locked XF86AudioNext exec playerctl next
+    bindsym --locked XF86AudioStop exec playerctl stop
+
+    # Special keys to adjust brightness via SwayOSD
+    bindsym --locked XF86MonBrightnessDown exec swayosd-client --brightness lower
+    bindsym --locked XF86MonBrightnessUp exec swayosd-client --brightness raise
+
+    # Screenshot with slurp and grim
+    bindsym Print exec mkdir -p ~/Pictures && grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png
+
+    # Display management
+    bindsym Mod4+Shift+p exec swaymsg output HDMI-A-1 mirror eDP-1
+    bindsym Mod4+Shift+o exec "swaymsg output HDMI-A-1 unplug; swaymsg output HDMI-A-1 enable pos 1920 0"
+
+    # Window rules
+    for_window [app_id="popup-.*"] floating enable, resize set 750 450, move position center
+
+    # Black theme window styling
+    default_border pixel 2
+    default_floating_border pixel 2
+
+    # class                 border  bground text    indicator child_border
+    client.focused          #ffffff #000000 #ffffff #ffffff   #444444
+    client.focused_inactive #222222 #000000 #888888 #222222   #222222
+    client.unfocused        #111111 #000000 #666666 #111111   #111111
+    client.urgent           #ff3333 #000000 #ffffff #ff3333   #ff3333
+    client.placeholder      #000000 #000000 #ffffff #000000   #000000
+    client.background       #000000
+
+    # Authentication agent
+    exec_always /usr/lib/polkit-kde-authentication-agent-1
+    exec mako
+    exec swayosd-server
+    exec /usr/local/bin/power-profile-auto-check
+
+#
+# Status Bar:
+#
+bar {
+    swaybar_command waybar
+}
+
+include /etc/sway/config.d/*

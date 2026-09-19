@@ -1,0 +1,6 @@
+antigravity-cli
+bluetuith-bin
+onlyoffice-bin
+ttf-times-new-roman
+wlogout
+yay-bin

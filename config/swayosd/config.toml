@@ -1,0 +1,15 @@
+[server]
+# Position the OSD at the bottom center of the screen
+top_margin = 0.88
+
+# Maximum volume in %
+max_volume = 150
+
+# Minimum brightness in %
+min_brightness = 5
+
+# Show percentage text next to the progress bar
+show_percentage = true
+
+# OSD display duration in milliseconds
+duration = 1200

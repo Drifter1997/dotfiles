@@ -1,0 +1,4 @@
+[mgr]
+prepend_keymap = [
+	{ on = "W", run = 'shell -- ~/.config/sway/set-wallpaper.sh %s', desc = "Set as wallpaper" },
+]

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+profile="$1"
+if [ -n "$profile" ]; then
+    /usr/bin/powerprofilesctl set "$profile"
+fi
