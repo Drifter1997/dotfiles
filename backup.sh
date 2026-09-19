@@ -112,11 +112,13 @@ for s in agyd idle-toggle mpv powermode-toggle power-profile-auto power-profile-
 done
 log_success "System configurations synchronized."
 
-# 6. Create Local Compressed Archive
-log_info "Creating compressed disaster recovery archive..."
+# 6. Create Local Compressed Archives (.tar.gz and .zip for USB)
+log_info "Creating compressed disaster recovery archives..."
 mkdir -p "$BACKUP_DIR"
 ARCHIVE_PATH="$BACKUP_DIR/$ARCHIVE_NAME"
 LATEST_LINK="$HOME/arch-backup-latest.tar.gz"
+ZIP_PATH="$BACKUP_DIR/arch-setup-${BACKUP_DATE}.zip"
+LATEST_ZIP="$HOME/arch-setup.zip"
 
 tar -czf "$ARCHIVE_PATH" \
     --exclude='.git' \
@@ -125,9 +127,18 @@ tar -czf "$ARCHIVE_PATH" \
     -C "$(dirname "$SCRIPT_DIR")" "$(basename "$SCRIPT_DIR")"
 
 cp "$ARCHIVE_PATH" "$LATEST_LINK"
-log_success "Archive created successfully:"
+
+# Create .zip archive (ideal for extracting directly onto a USB drive)
+(
+    cd "$SCRIPT_DIR"
+    zip -r -q -9 "$ZIP_PATH" . -x ".git/*" "backups/*" "*.log"
+)
+cp "$ZIP_PATH" "$LATEST_ZIP"
+
+log_success "Archives created successfully:"
 echo -e "   -> ${YELLOW}$ARCHIVE_PATH${RESET}"
-echo -e "   -> ${YELLOW}$LATEST_LINK${RESET} (Primary quick-access archive on your drive)"
+echo -e "   -> ${YELLOW}$LATEST_LINK${RESET} (Tarball archive)"
+echo -e "   -> ${YELLOW}$LATEST_ZIP${RESET} (USB-ready .zip archive: extract and run ./install.sh)"
 
 # 7. Google Drive Cloud Sync via Rclone
 CLOUD_FLAG="${1:-}"

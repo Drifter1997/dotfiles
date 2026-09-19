@@ -56,22 +56,16 @@ setup_remote() {
         esac
     fi
 
-    echo -e "You will now run the interactive rclone configuration."
-    echo -e "Follow these quick steps:\n"
-    echo -e "  1. Enter: ${YELLOW}n${RESET} (for New remote)"
-    echo -e "  2. Name:  ${YELLOW}gdrive${RESET}"
-    echo -e "  3. Type:  ${YELLOW}drive${RESET} (Google Drive)"
-    echo -e "  4. client_id / client_secret: Press ${YELLOW}Enter${RESET} (leave blank)"
-    echo -e "  5. Scope: Choose ${YELLOW}1${RESET} (Full access all files)"
-    echo -e "  6. service_account_file: Press ${YELLOW}Enter${RESET} (leave blank)"
-    echo -e "  7. Edit advanced config: Press ${YELLOW}n${RESET} (No)"
-    echo -e "  8. Use web browser to automatically authenticate: Press ${YELLOW}y${RESET} (Yes)"
-    echo -e "     -> Firefox will open. Sign in to your Google account and click Allow."
-    echo -e "  9. Configure this as a Shared Drive: Press ${YELLOW}n${RESET} (No)"
-    echo -e " 10. Confirm and Keep: Press ${YELLOW}y${RESET} then ${YELLOW}q${RESET} to quit.\n"
+    echo -e "Starting automated Google Drive authorization..."
+    echo -e "Your web browser (Firefox) will open automatically."
+    echo -e "Sign in to your Google Account and click ${BOLD}'Allow'${RESET} to grant access.\n"
     
-    read -rp "Press [Enter] to launch 'rclone config' now..."
-    rclone config
+    if rclone config create "${REMOTE_NAME}" drive; then
+        log_success "Google Drive remote '${REMOTE_NAME}' configured successfully!"
+    else
+        log_warn "Automated authorization was interrupted. Launching interactive rclone config..."
+        rclone config
+    fi
     
     if rclone listremotes 2>/dev/null | grep -q "^${REMOTE_NAME}:"; then
         echo -e "\n${GREEN}${BOLD}Google Drive connection successful!${RESET}"
@@ -92,13 +86,16 @@ push_backup() {
         bash "$SCRIPT_DIR/backup.sh"
     fi
 
-    # 2. Upload latest and timestamped archives
-    log_info "Uploading compressed backup archives..."
+    # 2. Upload latest and timestamped archives (both .tar.gz and .zip)
+    log_info "Uploading compressed backup archives (.tar.gz and .zip)..."
     rclone copy "$LATEST_ARCHIVE" "${REMOTE_DIR}/" --progress
+    if [ -f "$HOME/arch-setup.zip" ]; then
+        rclone copy "$HOME/arch-setup.zip" "${REMOTE_DIR}/" --progress
+    fi
     if [ -d "$SCRIPT_DIR/backups" ]; then
         rclone copy "$SCRIPT_DIR/backups/" "${REMOTE_DIR}/archives/" --progress
     fi
-    log_success "Backup archive uploaded to Google Drive."
+    log_success "Backup archives uploaded to Google Drive."
 
     # 3. Sync dotfiles tree directly (for easy browsing and individual file recovery)
     log_info "Syncing dotfiles folder structure to ${REMOTE_DIR}/dotfiles/..."
@@ -119,15 +116,15 @@ pull_backup() {
     TARGET_DIR="${1:-$HOME}"
     mkdir -p "$TARGET_DIR"
 
-    log_info "Fetching arch-backup-latest.tar.gz..."
-    rclone copy "${REMOTE_DIR}/arch-backup-latest.tar.gz" "$TARGET_DIR/" --progress
-    log_success "Downloaded to: $TARGET_DIR/arch-backup-latest.tar.gz"
+    log_info "Fetching arch-setup.zip and arch-backup-latest.tar.gz..."
+    rclone copy "${REMOTE_DIR}/arch-setup.zip" "$TARGET_DIR/" --progress 2>/dev/null || true
+    rclone copy "${REMOTE_DIR}/arch-backup-latest.tar.gz" "$TARGET_DIR/" --progress 2>/dev/null || true
+    log_success "Downloaded to: $TARGET_DIR"
 
     echo -e "\nTo unpack and install this backup on a minimal Arch system, run:"
     echo -e "   ${YELLOW}cd $TARGET_DIR${RESET}"
-    echo -e "   ${YELLOW}tar -xzf arch-backup-latest.tar.gz${RESET}"
-    echo -e "   ${YELLOW}cd dotfiles${RESET}"
-    echo -e "   ${YELLOW}./install.sh${RESET}\n"
+    echo -e "   ${YELLOW}unzip -q arch-setup.zip -d dotfiles && cd dotfiles && ./install.sh${RESET}"
+    echo -e "   (Or: ${YELLOW}tar -xzf arch-backup-latest.tar.gz && cd dotfiles && ./install.sh${RESET})\n"
 }
 
 list_backups() {
