@@ -1,6 +1,8 @@
 antigravity-cli
 bluetuith-bin
 onlyoffice-bin
+protonup-rs-bin
+tical
 ttf-times-new-roman
 wlogout
 yay-bin

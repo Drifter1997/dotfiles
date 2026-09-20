@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Chained Echoes
+Comment=A story-driven JRPG where a group of heroes travel around the vast continent of Valandis
+Exec=/home/joji/Games/chained-echoes/start.sh
+Icon=chained-echoes
+Terminal=false
+Type=Application
+Categories=Game;RolePlaying;
+Keywords=game;RPG;JRPG;Chained;Echoes;
+Path=/home/joji/Games/chained-echoes/pfx/drive_c/Games/Chained Echoes
+StartupWMClass=Chained Echoes.exe

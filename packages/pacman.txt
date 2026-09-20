@@ -1,3 +1,4 @@
+7zip
 adw-gtk-theme
 aria2
 base
@@ -16,7 +17,10 @@ fd
 firefox
 foot
 fzf
+gamescope
 git
+github-cli
+go
 grim
 gst-plugin-pipewire
 imv
@@ -24,6 +28,7 @@ intel-media-driver
 intel-ucode
 libnotify
 libpulse
+libqalculate
 libva-utils
 linux
 linux-firmware
@@ -32,6 +37,7 @@ mkinitcpio
 mpv
 neovim
 networkmanager
+npm
 otf-font-awesome
 pamixer
 pipewire
@@ -64,6 +70,7 @@ wireplumber
 wl-clipboard
 wlr-randr
 wmenu
+wofi
 wpa_supplicant
 xdg-desktop-portal-gtk
 xdg-desktop-portal-wlr

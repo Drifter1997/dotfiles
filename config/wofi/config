@@ -1,0 +1,10 @@
+mode=drun
+allow_images=true
+image_size=28
+width=500
+height=380
+prompt=Search...
+insensitive=true
+hide_scroll=true
+no_actions=true
+term=foot

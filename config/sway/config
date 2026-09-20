@@ -16,7 +16,7 @@ set $right l
 # Your preferred terminal emulator
 set $term foot
 # Your preferred application launcher
-set $menu wmenu-run
+set $menu wofi --show drun
 
 xwayland enable
 
@@ -84,6 +84,7 @@ exec_always --no-startup-id /home/joji/.config/sway/scripts/idle-daemon.sh
     bindsym Mod4+Shift+i exec /usr/local/bin/idle-toggle toggle
     bindsym Mod4+Ctrl+Delete exec foot --app-id=btop btop
     bindsym Mod4+Ctrl+KP_Delete exec foot --app-id=btop btop
+    bindsym Mod4+Shift+c exec foot --app-id=popup-calc tical
 
 
     # Start your launcher
@@ -98,7 +99,7 @@ exec_always --no-startup-id /home/joji/.config/sway/scripts/idle-daemon.sh
     floating_modifier $mod normal
 
     # Reload the configuration file
-    bindsym $mod+Shift+c reload
+    bindsym $mod+Shift+r reload
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
@@ -238,6 +239,9 @@ bindsym $mod+r mode "resize"
 
     # Window rules
     for_window [app_id="popup-.*"] floating enable, resize set 750 450, move position center
+    for_window [app_id="popup-calc"] floating enable, resize set 520 420, move position center
+    for_window [app_id="gamescope"] fullscreen enable, inhibit_idle focus
+    for_window [app_id="(?i)chained echoes.*"] fullscreen enable, inhibit_idle focus
 
     # Black theme window styling
     default_border pixel 2

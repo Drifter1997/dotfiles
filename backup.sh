@@ -49,7 +49,7 @@ log_info "Synchronizing ~/.config files..."
 mkdir -p "$SCRIPT_DIR/config"
 CONFIG_DIRS=(
     bluetuith btop foot gtk-3.0 gtk-4.0 mako mpv nvim onlyoffice
-    sway swaylock swayosd systemd Thunar waybar wlogout xfce4 yay yazi
+    sway swaylock swayosd systemd Thunar waybar wlogout wofi xfce4 yay yazi
 )
 
 for dir in "${CONFIG_DIRS[@]}"; do
@@ -140,15 +140,15 @@ echo -e "   -> ${YELLOW}$ARCHIVE_PATH${RESET}"
 echo -e "   -> ${YELLOW}$LATEST_LINK${RESET} (Tarball archive)"
 echo -e "   -> ${YELLOW}$LATEST_ZIP${RESET} (USB-ready .zip archive: extract and run ./install.sh)"
 
-# 7. Google Drive Cloud Sync via Rclone
+# 7. Google Drive Cloud Sync via Rclone (Opt-in with --cloud)
 CLOUD_FLAG="${1:-}"
-if [ "$CLOUD_FLAG" = "--cloud" ] || [ -f "$HOME/.config/rclone/rclone.conf" ]; then
+if [ "$CLOUD_FLAG" = "--cloud" ]; then
     if [ -f "$SCRIPT_DIR/rclone-sync.sh" ]; then
         log_info "Initiating Google Drive synchronization..."
         bash "$SCRIPT_DIR/rclone-sync.sh" push || log_warn "Google Drive sync encountered an issue. Run './rclone-sync.sh setup' to configure."
     fi
 else
-    log_info "Google Drive sync was skipped. (Run with ${YELLOW}--cloud${RESET} or run ${YELLOW}./rclone-sync.sh setup${RESET} to configure)."
+    log_info "Google Drive sync was skipped. (Pass ${YELLOW}--cloud${RESET} to upload to Google Drive)."
 fi
 
 # 8. Git Status

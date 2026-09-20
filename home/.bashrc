@@ -13,8 +13,11 @@ alias grep='grep --color=auto'
 alias agyd='agy --dangerously-skip-permissions'
 PS1='[\u@\h \W]\$ '
 
-# Prevent commands containing "ytplay" or "instagram-cli" from being saved to bash history
-export HISTIGNORE="*ytplay*:*instagram-cli*${HISTIGNORE:+:$HISTIGNORE}"
+# Path
+export PATH="$HOME/.local/bin:$PATH"
+
+# Prevent commands containing "ytplay", "instagram-cli", or "i-cli" from being saved to bash history
+export HISTIGNORE="*ytplay*:*instagram-cli*:*i-cli*${HISTIGNORE:+:$HISTIGNORE}"
 
 # ytplay: Search & Stream YouTube Audio with Foot Terminal Sixel Previews & FZF
 ytplay() {
