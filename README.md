@@ -78,11 +78,19 @@ ping -c 2 archlinux.org
 
 Choose whichever method is most convenient:
 
-#### Method A: From Git Repository (Recommended)
-If you pushed this `dotfiles` repo to GitHub or GitLab:
+#### Method A: From GitHub Repository (Private)
+Since the repository is private, authenticate using `github-cli` (device code) or a token:
 ```bash
-sudo pacman -S --needed --noconfirm git
-git clone https://github.com/Drifter1997/dotfiles.git ~/dotfiles
+# 1. Install git and GitHub CLI
+sudo pacman -S --needed --noconfirm git github-cli
+
+# 2. Log in (select GitHub.com -> HTTPS -> Login with a web browser, enter code on your phone)
+gh auth login
+
+# 3. Clone your dotfiles repository
+gh repo clone Drifter1997/dotfiles ~/dotfiles
+
+# 4. Run the automated restoration installer
 cd ~/dotfiles
 chmod +x install.sh
 ./install.sh
