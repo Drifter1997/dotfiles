@@ -82,7 +82,7 @@ Choose whichever method is most convenient:
 If you pushed this `dotfiles` repo to GitHub or GitLab:
 ```bash
 sudo pacman -S --needed --noconfirm git
-git clone https://github.com/<your-username>/dotfiles.git ~/dotfiles
+git clone https://github.com/Drifter1997/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 chmod +x install.sh
 ./install.sh
