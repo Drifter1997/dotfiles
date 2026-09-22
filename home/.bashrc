@@ -16,8 +16,8 @@ PS1='[\u@\h \W]\$ '
 # Path
 export PATH="$HOME/.local/bin:$PATH"
 
-# Prevent commands containing "ytplay", "instagram-cli", or "i-cli" from being saved to bash history
-export HISTIGNORE="*ytplay*:*instagram-cli*:*i-cli*${HISTIGNORE:+:$HISTIGNORE}"
+# Prevent commands containing custom CLI tools or sensitive tokens from being saved to bash history
+export HISTIGNORE="*ytplay*:*instagram-cli*:*i-cli*:*tik-cli*:*slowed*:*ytfzf*${HISTIGNORE:+:$HISTIGNORE}"
 
 # ytplay: Search & Stream YouTube Audio with Foot Terminal Sixel Previews & FZF
 ytplay() {

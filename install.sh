@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# Arch Linux Disaster Recovery & Automated Desktop Setup Script
-# Restores Sway, Waybar, Foot, Themes, Wallpapers, ZRAM, Audio, Udev, and Packages
+# Arch Linux Sway Minimal Keyboard & Terminal-Centric Setup Installer
+# Restores Sway, Waybar, Foot, Themes, Wallpapers, ZRAM, Audio, Udev, Packages, and Custom CLI Tools
 # ==============================================================================
 
 set -euo pipefail
@@ -22,9 +22,9 @@ log_success() { echo -e "${GREEN}${BOLD}[OK]${RESET}   $1" | tee -a "$LOG_FILE";
 log_warn()    { echo -e "${YELLOW}${BOLD}[WARN]${RESET} $1" | tee -a "$LOG_FILE"; }
 log_error()   { echo -e "${RED}${BOLD}[ERROR]${RESET} $1" | tee -a "$LOG_FILE"; }
 
-echo -e "${BOLD}======================================================${RESET}"
-echo -e "${BOLD}   Arch Linux Disaster Recovery & Desktop Installer   ${RESET}"
-echo -e "${BOLD}======================================================${RESET}"
+echo -e "${BOLD}====================================================================${RESET}"
+echo -e "${BOLD}   Arch Linux Sway Minimal Keyboard & Terminal-Centric Installer    ${RESET}"
+echo -e "${BOLD}====================================================================${RESET}"
 echo -e "Detailed logs will be saved to: ${YELLOW}${LOG_FILE}${RESET}\n"
 
 # 1. Safety check: Run as normal user with sudo permissions
@@ -277,11 +277,19 @@ if [ "$CURRENT_SHELL" != "/bin/bash" ] && [ "$CURRENT_SHELL" != "/usr/bin/bash" 
     sudo chsh -s /bin/bash "$USER" >> "$LOG_FILE" 2>&1 || true
 fi
 
-echo -e "\n${GREEN}${BOLD}======================================================${RESET}"
-echo -e "${GREEN}${BOLD}  Disaster Recovery Setup Completed Successfully!     ${RESET}"
-echo -e "${GREEN}${BOLD}======================================================${RESET}"
-echo -e "Your Sway desktop environment, Waybar, Foot, audio, and tools"
-echo -e "have been restored to their exact intended configuration."
+# 15. Configure Custom Terminal Tools Symlinks
+log_info "Configuring custom terminal & keyboard-centric tools..."
+mkdir -p "$HOME/.local/bin"
+[ -f "$HOME/repo/i-cli/i-cli" ] && ln -sf "$HOME/repo/i-cli/i-cli" "$HOME/.local/bin/i-cli"
+[ -f "$HOME/repo/tik-cli/tik-cli" ] && ln -sf "$HOME/repo/tik-cli/tik-cli" "$HOME/.local/bin/tik-cli"
+[ -f "$HOME/Music/slowed/slowed" ] && ln -sf "$HOME/Music/slowed/slowed" "$HOME/.local/bin/slowed"
+log_success "Custom tools symlinks verified in ~/.local/bin"
+
+echo -e "\n${GREEN}${BOLD}====================================================================${RESET}"
+echo -e "${GREEN}${BOLD}   Sway Minimal Keyboard Setup Completed Successfully!             ${RESET}"
+echo -e "${GREEN}${BOLD}====================================================================${RESET}"
+echo -e "Your Sway desktop environment, Waybar, Foot, Neovim, audio, and custom"
+echo -e "terminal-centric tools (i-cli, tik-cli, slowed, ytplay) are ready."
 echo -e "\nTo start your new desktop session, you can:"
 echo -e "  1. Run:  ${YELLOW}exec sway${RESET}"
 echo -e "  2. Or simply reboot: ${YELLOW}sudo reboot${RESET} (auto-starts Sway on tty1)\n"

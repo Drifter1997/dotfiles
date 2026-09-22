@@ -113,7 +113,7 @@ done
 log_success "System configurations synchronized."
 
 # 6. Create Local Compressed Archives (.tar.gz and .zip for USB)
-log_info "Creating compressed disaster recovery archives..."
+log_info "Creating compressed setup archives..."
 mkdir -p "$BACKUP_DIR"
 ARCHIVE_PATH="$BACKUP_DIR/$ARCHIVE_NAME"
 LATEST_LINK="$HOME/arch-backup-latest.tar.gz"
