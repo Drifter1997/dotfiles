@@ -229,10 +229,10 @@ if [ -d "$SCRIPT_DIR/pictures/wallpapers" ]; then
     log_success "Wallpapers restored to ~/Pictures/wallpapers."
 fi
 
-# Restore Wallpaper Symlink
-DEFAULT_WP="$HOME/Pictures/wallpapers/wp15186095-sung-jinwoo-pc-wallpapers.webp"
+# Restore Wallpaper Symlink (Minimal single wallpaper setup)
+DEFAULT_WP="$HOME/Pictures/wallpapers/calm-night-minimal.png"
 if [ ! -f "$DEFAULT_WP" ]; then
-    # Pick first available wallpaper if default isn't present
+    # Pick first available wallpaper if calm-night-minimal isn't present
     DEFAULT_WP="$(find "$HOME/Pictures/wallpapers" -type f | head -n 1)"
 fi
 

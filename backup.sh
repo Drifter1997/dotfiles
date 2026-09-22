@@ -81,12 +81,21 @@ if [ -d "$HOME/.local/share/applications" ]; then
 fi
 log_success "Shell and application entries synchronized."
 
-# 4. Sync Wallpapers
-log_info "Synchronizing wallpapers..."
+# 4. Sync Currently Applied Wallpaper (Minimal single wallpaper footprint)
+log_info "Synchronizing currently applied wallpaper..."
 mkdir -p "$SCRIPT_DIR/pictures/wallpapers"
-if [ -d "$HOME/Pictures/wallpapers" ]; then
-    cp -r "$HOME/Pictures/wallpapers/"* "$SCRIPT_DIR/pictures/wallpapers/" 2>/dev/null || true
-    log_success "Wallpapers synchronized ($(ls -1 "$SCRIPT_DIR/pictures/wallpapers" | wc -l) files)."
+CURRENT_WP="$(readlink -f "$HOME/.config/sway/current_wallpaper" 2>/dev/null || true)"
+if [ -n "$CURRENT_WP" ] && [ -f "$CURRENT_WP" ]; then
+    rm -rf "$SCRIPT_DIR/pictures/wallpapers"/*
+    cp "$CURRENT_WP" "$SCRIPT_DIR/pictures/wallpapers/"
+    log_success "Active wallpaper synchronized: $(basename "$CURRENT_WP")"
+elif [ -d "$HOME/Pictures/wallpapers" ]; then
+    FIRST_WP="$(find "$HOME/Pictures/wallpapers" -type f | head -n 1)"
+    if [ -n "$FIRST_WP" ]; then
+        rm -rf "$SCRIPT_DIR/pictures/wallpapers"/*
+        cp "$FIRST_WP" "$SCRIPT_DIR/pictures/wallpapers/"
+        log_success "Wallpaper synchronized: $(basename "$FIRST_WP")"
+    fi
 fi
 
 # 5. Sync System Configurations & Custom Scripts
